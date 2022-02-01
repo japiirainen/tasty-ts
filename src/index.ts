@@ -1,4 +1,4 @@
-import {grayLn, gray, greenLn, magenta, redLn, yellow} from './colorLog'
+import { grayLn, gray, greenLn, magenta, redLn, yellow } from './colorLog'
 
 type TestFn = (() => void) | (() => Promise<void>)
 
@@ -14,11 +14,11 @@ export default function (headline: string) {
   const only: Test[] = []
 
   function self(name: string, fn: TestFn) {
-    suite.push({name: name, fn: fn})
+    suite.push({ name: name, fn: fn })
   }
 
   self.only = function (name: string, fn: TestFn) {
-    only.push({name: name, fn: fn})
+    only.push({ name: name, fn: fn })
   }
 
   self.before = function (fn: TestFn) {

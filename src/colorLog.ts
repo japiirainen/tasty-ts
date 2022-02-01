@@ -1,6 +1,4 @@
-const supported = /_color|ansi|cygwin|linux|xterm-256color/i.test(
-  process.env.TERM ?? ''
-)
+const supported = /_color|ansi|cygwin|linux|xterm-256color/i.test(process.env.TERM ?? '')
 
 const colors = {
   black: 30,
@@ -11,14 +9,13 @@ const colors = {
   magenta: 35,
   cyan: 36,
   white: 37,
-  gray: 90,
+  gray: 90
 }
 
 const log =
   (color: keyof typeof colors) =>
   (msg: string): void => {
-    if (supported)
-      process.stdout.write(`\u001b[${colors[color]}m${msg}\u001b[39m`)
+    if (supported) process.stdout.write(`\u001b[${colors[color]}m${msg}\u001b[39m`)
     else process.stdout.write(msg)
     return
   }
