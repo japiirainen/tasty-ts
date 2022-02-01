@@ -9,9 +9,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
-    "eslint": "^8.8.0",
     "prettier": "^2.5.1",
     "ts-node": "^10.4.0"
   },
@@ -21,7 +18,6 @@
     "build:watch": "tsc -w -p tsconfig.build.json",
     "prepublish": "yarn run build",
     "pretty": "yarn run prettier --check .",
-    "lint": "yarn run eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0",
     "test": "ts-node tests/index.ts"
   }
 }
