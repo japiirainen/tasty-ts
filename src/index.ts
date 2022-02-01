@@ -1,6 +1,6 @@
 import {grayLn, gray, greenLn, magenta, redLn, yellow} from './colorLog'
 
-type TestFn = () => void | (() => Promise<void>)
+type TestFn = (() => void) | (() => Promise<void>)
 
 type Test = {
   name: string
@@ -13,7 +13,7 @@ export default function (headline: string) {
   const after: TestFn[] = []
   const only: Test[] = []
 
-  function self(name: string, fn: () => void) {
+  function self(name: string, fn: TestFn) {
     suite.push({name: name, fn: fn})
   }
 
@@ -24,9 +24,11 @@ export default function (headline: string) {
   self.before = function (fn: TestFn) {
     before.push(fn)
   }
+
   self.after = function (fn: TestFn) {
     after.push(fn)
   }
+
   self.skip = function (_: TestFn) {}
 
   self.run = async function () {

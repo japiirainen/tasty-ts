@@ -1,9 +1,6 @@
 {
   "name": "tasty-ts",
   "type": "commonjs",
-  "engines": {
-    "node": ">=16"
-  },
   "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",

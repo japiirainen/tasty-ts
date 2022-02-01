@@ -1,7 +1,14 @@
 import suite from '../src/index'
 import assert from 'assert'
+import getCounter from './counter'
 
 const test = suite('my test suite')
+
+const counter = getCounter()
+
+test.before(counter.inc)
+
+test.skip(counter.inc)
 
 test('trivial assert', () => {
   assert.equal(1 + 1, 2)
@@ -12,10 +19,17 @@ test('async test', async () => {
   assert.equal(1 + 1, 2)
 })
 
-test('failing test', () => {
-  assert.rejects(async () => {
+test('failing test', async () => {
+  await assert.rejects(async () => {
     throw new Error('explosion!')
   })
 })
 
-!(() => test.run())()
+!(async () => {
+  try {
+    await test.run()
+    assert.equal(counter.get(), 3)
+  } finally {
+    process.exit(0)
+  }
+})()
