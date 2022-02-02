@@ -6,7 +6,7 @@ const test = suite('my test suite')
 
 const counter = getCounter()
 
-test.before(counter.inc)
+test.beforeEach(counter.inc)
 
 test.skip(counter.inc)
 
