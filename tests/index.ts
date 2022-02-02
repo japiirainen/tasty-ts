@@ -4,11 +4,13 @@ import getCounter from './counter'
 
 const test = suite('my test suite')
 
-const counter = getCounter()
+const beforeEachCounter = getCounter()
+const afterAllCounter = getCounter()
 
-test.beforeEach(counter.inc)
+test.beforeEach(beforeEachCounter.inc)
+test.afterAll(afterAllCounter.inc)
 
-test.skip(counter.inc)
+test.skip(beforeEachCounter.inc)
 
 test('trivial assert', () => {
   assert.equal(1 + 1, 2)
@@ -28,7 +30,11 @@ test('failing test', async () => {
 !(async () => {
   try {
     await test.run()
-    assert.equal(counter.get(), 3)
+    assert.equal(beforeEachCounter.get(), 3)
+    assert.equal(afterAllCounter.get(), 1)
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
   } finally {
     process.exit(0)
   }
