@@ -28,6 +28,11 @@ test('trivial-assert', () => {
 
 
 ### Motivation
-
+TODO
 ### Docs
 TODO
+
+### Acknowledgements, citations, and related work
+The following is a non-exhaustive list of people and works that have had a significant impact, directly or indirectly, on tasty-ts’s design and implementation:
+
+- Tero Piirainen and all [baretest](https://github.com/volument/baretest) contributors.
