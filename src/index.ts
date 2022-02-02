@@ -9,32 +9,27 @@ type Test = {
 
 export default function (headline: string) {
   const suite: Test[] = []
-  const beforeEach: TestFn[] = []
+  const beforeAll: TestFn[] = []
   const afterAll: TestFn[] = []
+  const beforeEach: TestFn[] = []
+  const afterEach: TestFn[] = []
   const only: Test[] = []
 
-  function self(name: string, fn: TestFn) {
-    suite.push({ name: name, fn: fn })
-  }
+  const test = (name: string, fn: TestFn) => suite.push({ name: name, fn: fn })
 
-  self.only = function (name: string, fn: TestFn) {
-    only.push({ name: name, fn: fn })
-  }
+  test.only = (name: string, fn: TestFn) => only.push({ name: name, fn: fn })
+  test.beforeAll = (fn: TestFn) => beforeAll.push(fn)
+  test.afterAll = (fn: TestFn) => afterAll.push(fn)
+  test.beforeEach = (fn: TestFn) => beforeEach.push(fn)
+  test.afterEach = (fn: TestFn) => afterEach.push(fn)
+  test.skip = function (_: TestFn) {}
 
-  self.beforeEach = function (fn: TestFn) {
-    beforeEach.push(fn)
-  }
-
-  self.afterAll = function (fn: TestFn) {
-    afterAll.push(fn)
-  }
-
-  self.skip = function (_: TestFn) {}
-
-  self.run = async function () {
+  test.run = async () => {
     const tests = only[0] ? only : suite
 
     cyan(headline + ' ')
+
+    for (const fn of beforeAll) await fn()
 
     for (const test of tests) {
       try {
@@ -46,6 +41,8 @@ export default function (headline: string) {
         redLn(`\n\n! ${test.name} \n\n`)
         prettyError(e)
         return false
+      } finally {
+        for (const fn of afterEach) await fn()
       }
     }
 
@@ -55,7 +52,7 @@ export default function (headline: string) {
     return true
   }
 
-  return self
+  return test
 }
 
 const prettyError = (e: unknown) => {

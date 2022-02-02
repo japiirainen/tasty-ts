@@ -4,11 +4,15 @@ import getCounter from './counter'
 
 const test = suite('my test suite')
 
-const beforeEachCounter = getCounter()
+const beforeAllCounter = getCounter()
 const afterAllCounter = getCounter()
+const beforeEachCounter = getCounter()
+const afterEachCounter = getCounter()
 
-test.beforeEach(beforeEachCounter.inc)
 test.afterAll(afterAllCounter.inc)
+test.beforeAll(beforeAllCounter.inc)
+test.beforeEach(beforeEachCounter.inc)
+test.afterEach(afterEachCounter.inc)
 
 test.skip(beforeEachCounter.inc)
 
@@ -30,8 +34,10 @@ test('failing test', async () => {
 !(async () => {
   try {
     await test.run()
-    assert.equal(beforeEachCounter.get(), 3)
+    assert.equal(beforeAllCounter.get(), 1)
     assert.equal(afterAllCounter.get(), 1)
+    assert.equal(beforeEachCounter.get(), 3)
+    assert.equal(afterEachCounter.get(), 3)
   } catch (e) {
     console.error(e)
     process.exit(1)
